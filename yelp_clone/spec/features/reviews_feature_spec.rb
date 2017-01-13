@@ -22,11 +22,16 @@ feature 'reviewing' do
   end
 
   scenario 'users can only leave one review per restaurant' do
-    visit '/restaurants'
-    click_link 'Review KFC'
-    fill_in "Thoughts", with: "Gets better with age"
-    select '5', from: 'Rating'
-    expect{click_button 'Leave Review'}.to_not change{Review.count}
-  end
+  visit '/restaurants'
+  click_link 'Review KFC'
+  fill_in "Thoughts", with: "Gets better with age"
+  select '5', from: 'Rating'
+  click_button 'Leave Review'
+  visit '/restaurants'
+  click_link 'Review KFC'
+  fill_in "Thoughts", with: "Not such a fan any more"
+  select '1', from: 'Rating'
+  expect{click_button 'Leave Review'}.to_not change{Review.count}
+end
 
 end
